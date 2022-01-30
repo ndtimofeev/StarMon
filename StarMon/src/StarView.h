@@ -3,12 +3,15 @@
 
 // QWidget
 #include <QGraphicsView>
+#include <qglobal.h>
 #include <qobjectdefs.h>
 #include <qtransform.h>
 
 class StarView : public QGraphicsView
 {
     Q_OBJECT
+	Q_PROPERTY( QPointF center READ center WRITE centerOn )
+	Q_PROPERTY( qreal zoom READ zoomCurrent WRITE setZoom )
 
 signals:
     void transformed( QTransform );
@@ -20,6 +23,12 @@ public:
     StarView( QWidget* = nullptr );
 
     virtual ~StarView();
+
+	QPointF   center() const;
+	qreal     zoomMax() const;
+	qreal     zoomMin() const;
+	qreal     zoomCurrent() const;
+	void      setZoom( qreal );
 
 protected:
     virtual void showEvent( QShowEvent* ) override;
