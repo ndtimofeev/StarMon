@@ -54,8 +54,8 @@ void StarItem::hoverEnterEvent( QGraphicsSceneHoverEvent* event )
 {
     auto rect = this->rect();
     auto pt   = rect.center();
-    rect.setWidth( rect.width() * 1.2 );
-    rect.setHeight( rect.height() * 1.2 );
+    rect.setWidth( rect.width() * 1.5 );
+    rect.setHeight( rect.height() * 1.5 );
     rect.moveCenter( pt );
     this->setRect( rect );
 
@@ -66,8 +66,8 @@ void StarItem::hoverLeaveEvent( QGraphicsSceneHoverEvent* event )
 {
     auto rect = this->rect();
     auto pt   = rect.center();
-    rect.setWidth( rect.width() / 1.2 );
-    rect.setHeight( rect.height() / 1.2 );
+    rect.setWidth( rect.width() / 1.5 );
+    rect.setHeight( rect.height() / 1.5 );
     rect.moveCenter( pt );
     this->setRect( rect );
 
