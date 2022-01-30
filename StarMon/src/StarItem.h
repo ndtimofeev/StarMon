@@ -1,25 +1,36 @@
 #ifndef _STARITEM_H_
 #define _STARITEM_H_
 
+// STL
+#include <optional>
+
 // Widgets
 #include <QGraphicsEllipseItem>
+#include <qbrush.h>
 #include <qgraphicsitem.h>
 
-// enum class StarClass { Blue, White, Yellow, Orange, Red };
+enum class StarColor { Blue, White, Yellow, Orange, Red };
 
 class StarItem : public QGraphicsEllipseItem
 {
 public:
     StarItem( const QPointF&, qreal, QGraphicsItem* = nullptr );
 
-    void    setNameVisible( bool );
-    bool    nameVisible() const;
+//	void      setColor( StarColor );
+	StarColor color() const;
 
-    void    setName( const QString & );
-    QString name() const;
+    void      setNameVisible( bool );
+    bool      nameVisible() const;
 
-    void    setSelectionVisible( bool );
-    bool    selectionVisible() const;
+    void      setName( const QString & );
+    QString   name() const;
+
+    void      setSelectionVisible( bool );
+    bool      selectionVisible() const;
+
+	static QBrush                   starBrush( StarColor );
+	static qreal                    starSizeFactor( StarColor );
+	static std::optional<StarColor> starFromString( const QString & );
 
 protected:
     virtual void contextMenuEvent( QGraphicsSceneContextMenuEvent* ) override;
@@ -29,6 +40,7 @@ protected:
 private:
     QGraphicsEllipseItem*    m_selectionItem;
     QGraphicsSimpleTextItem* m_nameTextItem;
+	StarColor                m_starColor;
 };
 
 #endif

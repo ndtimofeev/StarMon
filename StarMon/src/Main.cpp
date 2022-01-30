@@ -76,37 +76,6 @@ int main( int argc, char** argv )
 	StarMap scene;
 	scene.setBackgroundBrush( Qt::black );
 
-	QRadialGradient yellowGradient( QPointF( 0.5, 0.5 ), 0.5 );
-	yellowGradient.setCoordinateMode( QGradient::ObjectBoundingMode );
-	yellowGradient.setColorAt(0, Qt::white);
-	yellowGradient.setColorAt(0.4, Qt::yellow);
-	yellowGradient.setColorAt(1, Qt::transparent);
-
-	QRadialGradient redGradient( QPointF( 0.5, 0.5 ), 0.5 );
-	redGradient.setCoordinateMode( QGradient::ObjectBoundingMode );
-	redGradient.setColorAt(0, Qt::white);
-	redGradient.setColorAt(0.3, Qt::red);
-	redGradient.setColorAt(1, Qt::transparent);
-
-	QRadialGradient blueGradient( QPointF( 0.5, 0.5 ), 0.5 );
-	blueGradient.setCoordinateMode( QGradient::ObjectBoundingMode );
-	blueGradient.setColorAt(0, Qt::white);
-	blueGradient.setColorAt(0.3, Qt::blue);
-	blueGradient.setColorAt(1, Qt::transparent);
-
-	QRadialGradient orangeGradient( QPointF( 0.5, 0.5 ), 0.5 );
-	orangeGradient.setCoordinateMode( QGradient::ObjectBoundingMode );
-	orangeGradient.setColorAt(0, Qt::white);
-	orangeGradient.setColorAt(0.3, QColor( "orange" ));
-	orangeGradient.setColorAt(1, Qt::transparent);
-
-	QRadialGradient whiteGradient( QPointF( 0.5, 0.5 ), 0.5 );
-	whiteGradient.setCoordinateMode( QGradient::ObjectBoundingMode );
-	whiteGradient.setColorAt(0, Qt::white);
-	whiteGradient.setColorAt(0.3, Qt::white);
-	whiteGradient.setColorAt(1, Qt::transparent);
-
-
 	auto stars = QMap<QString,Star>();
 
 	QVector<QGraphicsSimpleTextItem*> texts;
@@ -125,32 +94,12 @@ int main( int argc, char** argv )
 			val.m_color = star.value( "color" ).toString();
 			stars[ val.m_name ] = val;
 
-			auto diametr  = 30.0;
-			auto gradient = yellowGradient;
-            if ( val.m_color == "Red" )
-			{
-				diametr  = std::sqrt( 0.36 ) * diametr;
-				gradient = redGradient;
-			}
-            else if ( val.m_color == "Blue" )
-			{
-				diametr  = std::sqrt( 5.8 ) * diametr;
-				gradient = blueGradient;
-			}
-            else if ( val.m_color == "Orange" )
-			{
-				diametr  = std::sqrt( 0.83 ) * diametr;
-				gradient = orangeGradient;
-			}
-            else if ( val.m_color == "White" )
-			{
-				diametr  = std::sqrt( 4.9 ) * diametr;
-				gradient = whiteGradient;
-			}
+			auto starColor = StarItem::starFromString( val.m_color ).value_or( StarColor::Yellow );
+			auto diametr  = 30.0 * StarItem::starSizeFactor( starColor );
 
 			auto elp = new StarItem( QPointF( val.m_x * 40 - diametr / 2, val.m_y * 40 - diametr / 2), diametr );
 			elp->setZValue( 1 );
-			elp->setBrush( gradient );
+			elp->setBrush( StarItem::starBrush( starColor ) );
 			elp->setName( val.m_name );
 			scene.addItem( elp );
 	
