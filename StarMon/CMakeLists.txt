@@ -25,6 +25,12 @@ add_executable(StarMon
     src/Main.cpp
 )
 
-#add_executable()
-
 target_link_libraries(StarMon Qt5::Widgets)
+
+
+add_executable(StarSystem
+    src/StarItem.cpp
+	src/StarSystem.cpp
+)
+
+target_link_libraries(StarSystem Qt5::Widgets)

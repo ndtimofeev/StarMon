@@ -5,6 +5,8 @@ StarMon/.cache
 StarMon/CMakeFiles
 StarMon/StarMon
 StarMon/StarMon_autogen
+StarMon/StarSystem
+StarMon/StarSystem_autogen
 StarMon/Makefile
 StarMon/CMakeCache.txt
 StarMon/cmake_install.cmake
