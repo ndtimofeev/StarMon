@@ -14,7 +14,7 @@ enum class StarColor { Blue, White, Yellow, Orange, Red };
 class StarItem : public QGraphicsEllipseItem
 {
 public:
-    StarItem( const QPointF&, qreal, QGraphicsItem* = nullptr );
+    StarItem( qreal, QGraphicsItem* = nullptr );
 
 //	void      setColor( StarColor );
 	StarColor color() const;
@@ -24,6 +24,9 @@ public:
 
     void      setName( const QString & );
     QString   name() const;
+
+	qreal     hoverUpscaleFactor() const;
+	void      setHoverUpscaleFactor( qreal );
 
     void      setSelectionVisible( bool );
     bool      selectionVisible() const;
@@ -41,6 +44,8 @@ private:
     QGraphicsEllipseItem*    m_selectionItem;
     QGraphicsSimpleTextItem* m_nameTextItem;
 	StarColor                m_starColor;
+	qreal                    m_hoverUpscaleFactor;
+	qreal                    m_hoverOldUpscaleFactor;
 };
 
 #endif

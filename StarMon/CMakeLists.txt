@@ -29,7 +29,9 @@ target_link_libraries(StarMon Qt5::Widgets)
 
 
 add_executable(StarSystem
+	src/OrbitItem.cpp
     src/StarItem.cpp
+    src/StarView.cpp
 	src/StarSystem.cpp
 )
 

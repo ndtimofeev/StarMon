@@ -97,10 +97,13 @@ int main( int argc, char** argv )
 			auto starColor = StarItem::starFromString( val.m_color ).value_or( StarColor::Yellow );
 			auto diametr  = 30.0 * StarItem::starSizeFactor( starColor );
 
-			auto elp = new StarItem( QPointF( val.m_x * 40 - diametr / 2, val.m_y * 40 - diametr / 2), diametr );
+//			auto elp = new StarItem( QPointF( val.m_x * 40 - diametr / 2, val.m_y * 40 - diametr / 2), diametr );
+			auto elp = new StarItem( diametr );
+			elp->setPos( val.m_x * 40, val.m_y * 40 );
 			elp->setZValue( 1 );
 			elp->setBrush( StarItem::starBrush( starColor ) );
 			elp->setName( val.m_name );
+			elp->setHoverUpscaleFactor( 1.5 );
 			scene.addItem( elp );
 	
 			elipses << elp;
@@ -170,51 +173,8 @@ int main( int argc, char** argv )
 				animation3->addAnimation( animation2 );
 				animation3->addAnimation( animation1 );
 				animation3->start();
-//				wg.centerOn( star );
-				/* for ( auto arg : scene.items() ) */
-				/* 	if ( arg != star ) */
-				/* 	{ */
-				/* 		arg->setVisible( false ); */
-				/* 	} */
-
-				/* scene.setSceneRect( wg.mapToScene( wg.viewport()->geometry() ).boundingRect() ); */
-
-				/* auto rect1 = star->rect(); */
-				/* auto cnt   = rect1.center(); */
-				/* rect1.setWidth( rect1.width() * 10 ); */
-				/* rect1.setHeight( rect1.height() * 10 ); */
-				/* rect1.moveCenter( cnt ); */
-				/* scene.addEllipse( rect1, QPen( Qt::gray ) ); */
-
-				/* auto rect2 = star->rect(); */
-				/* rect2.setWidth( rect2.width() * 90 ); */
-				/* rect2.setHeight( rect2.height() * 90 ); */
-				/* rect2.moveCenter( cnt ); */
-				/* scene.addEllipse( rect2, QPen( Qt::gray ) ); */
 			}
 		} );
-
-	/* QObject::connect( &wg, &StarView::zoomed, */
-	/*     [&wg, &texts, &elipses]( auto v ) */
-            /* { */
-	/*		auto t = wg.transform().m11(); */
-	/*	qDebug() << t; */
-	/*	if ( t <= 1 && t >= 0.25 ) */
-	/*	{ */
-                /* for ( auto arg : texts ) */
-	/*		arg->setScale( 1 / t ); */
-
-	/*		for ( auto arg : elipses ) */
-	/*		{ */
-	/*             auto rect   = arg->rect(); */
-	/*             auto center = rect.center(); */
-	/*             rect.setWidth( 20 / t ); */
-	/*             rect.setHeight( 20 / t ); */
-	/*             rect.moveCenter( center ); */
-	/*             arg->setRect( rect ); */ 
-	/*		} */
-	/*	} */
-            /* } ); */
 
     return app.exec();
 }

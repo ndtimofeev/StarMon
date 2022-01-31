@@ -88,9 +88,13 @@ qreal StarItem::starSizeFactor( StarColor c )
 	return std::sqrt( factor );
 }
 
-StarItem::StarItem( const QPointF &center, qreal diametr, QGraphicsItem* parent ) :
-    QGraphicsEllipseItem( center.x(), center.y(), diametr, diametr, parent ),
-    m_selectionItem( nullptr ), m_nameTextItem( nullptr ), m_starColor( StarColor::Yellow )
+StarItem::StarItem( qreal diametr, QGraphicsItem* parent ) :
+    QGraphicsEllipseItem( - diametr / 2, - diametr / 2, diametr, diametr, parent ),
+    m_selectionItem( nullptr ),
+	m_nameTextItem( nullptr ),
+	m_starColor( StarColor::Yellow ),
+	m_hoverUpscaleFactor( 1 ),
+	m_hoverOldUpscaleFactor( 1 )
 {
     this->setAcceptHoverEvents( true );
     this->setPen( QPen( Qt::NoPen ) );
@@ -118,6 +122,16 @@ void StarItem::setNameVisible( bool c )
         this->m_nameTextItem->setVisible( c );
 }
 
+void StarItem::setHoverUpscaleFactor( qreal factor )
+{
+	this->m_hoverUpscaleFactor = factor;
+}
+
+qreal StarItem::hoverUpscaleFactor() const
+{
+	return this->m_hoverUpscaleFactor;
+}
+
 void StarItem::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
 {
     qDebug() << event;
@@ -127,24 +141,33 @@ void StarItem::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
 
 void StarItem::hoverEnterEvent( QGraphicsSceneHoverEvent* event )
 {
-    auto rect = this->rect();
-    auto pt   = rect.center();
-    rect.setWidth( rect.width() * 1.5 );
-    rect.setHeight( rect.height() * 1.5 );
-    rect.moveCenter( pt );
-    this->setRect( rect );
+	if ( this->m_hoverUpscaleFactor != 1 )
+	{
+
+		auto rect = this->rect();
+		auto pt   = rect.center();
+		rect.setWidth( rect.width() * this->m_hoverUpscaleFactor );
+		rect.setHeight( rect.height() * this->m_hoverUpscaleFactor );
+		rect.moveCenter( pt );
+		this->setRect( rect );
+		this->m_hoverOldUpscaleFactor = this->m_hoverUpscaleFactor;
+	}
 
     QGraphicsEllipseItem::hoverEnterEvent( event );
 }
 
 void StarItem::hoverLeaveEvent( QGraphicsSceneHoverEvent* event )
 {
-    auto rect = this->rect();
-    auto pt   = rect.center();
-    rect.setWidth( rect.width() / 1.5 );
-    rect.setHeight( rect.height() / 1.5 );
-    rect.moveCenter( pt );
-    this->setRect( rect );
+	if ( this->m_hoverOldUpscaleFactor != 1 )
+	{
+		auto rect = this->rect();
+		auto pt   = rect.center();
+		rect.setWidth( rect.width() / this->m_hoverOldUpscaleFactor );
+		rect.setHeight( rect.height() / this->m_hoverOldUpscaleFactor );
+		rect.moveCenter( pt );
+		this->setRect( rect );
+		this->m_hoverOldUpscaleFactor = 1;
+	}
 
     QGraphicsEllipseItem::hoverLeaveEvent( event );
 }
