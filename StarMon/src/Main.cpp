@@ -28,6 +28,7 @@
 #include <qglobal.h>
 #include <qgraphicsitem.h>
 #include <qgraphicsview.h>
+#include <qline.h>
 #include <qnamespace.h>
 #include <qparallelanimationgroup.h>
 #include <qpropertyanimation.h>
@@ -162,11 +163,12 @@ int main( int argc, char** argv )
 				auto animation1 = new QPropertyAnimation( &wg, "center" );
 				auto animation2 = new QPropertyAnimation( &wg, "zoom" );
 				auto animation3 = new QParallelAnimationGroup;
-				animation1->setDuration( 400 );
+				auto duration   = std::sqrt( QLineF( wg.center(), star->pos() ).length() / 100 ) * 100;
+				animation1->setDuration( duration );
 				animation1->setStartValue( wg.center() );
-				animation1->setEndValue( star->boundingRect().center() );
+				animation1->setEndValue( star->pos() );
 
-				animation2->setDuration( 400 );
+				animation2->setDuration( duration );
 				animation2->setStartValue( wg.zoomCurrent() );
 				animation2->setEndValue( wg.zoomMax() );
 

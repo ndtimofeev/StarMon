@@ -15,6 +15,7 @@
 #include <StarItem.h>
 #include <StarView.h>
 #include <cmath>
+#include <qgraphicsitem.h>
 #include <qnamespace.h>
 #include <qpoint.h>
 #include <qtransform.h>
@@ -33,8 +34,13 @@ int main( int argc, char** argv )
 
 		StarItem item( 30 );
 		item.setBrush( StarItem::starBrush( StarColor::Yellow ) );
+		item.setZValue( 1 );
+		item.setAcceptHoverEvents( false );
 		scene.addItem( &item );
 		auto center = item.rect().center();
+
+		auto group = new QGraphicsItemGroup;
+		scene.addItem( group );
 
 		OrbitItem mercury( astronomicalUnit( 0.46 ), astronomicalUnit( 0.3 ), 0.2, &item );
 		mercury.setRotation( 7 );
@@ -43,7 +49,6 @@ int main( int argc, char** argv )
 		venus.setRotation( 3.39 );
 	
 		OrbitItem earth( astronomicalUnit( 1.016 ), astronomicalUnit( 0.983 ), 0.016, &item );
-		earth.setRotation( 7.15 );
 	
 		OrbitItem mars( astronomicalUnit( 1.666 ), astronomicalUnit( 1.381 ), 0.0934, &item );
 		mars.setRotation( 1.85 );
@@ -62,6 +67,21 @@ int main( int argc, char** argv )
 
 		OrbitItem pluto( astronomicalUnit( 49.31 ), astronomicalUnit( 29.667 ), 0.249, &item );
 		pluto.setRotation( 17 ); // 180 + 27 );
+
+		group->addToGroup( &mercury );
+		group->addToGroup( &venus );
+		group->addToGroup( &earth );
+		group->addToGroup( &mars );
+		group->addToGroup( &jupiter );
+		group->addToGroup( &saturn );
+		group->addToGroup( &uranus );
+		group->addToGroup( &neptune );
+		group->addToGroup( &pluto );
+		group->setScale( 0.001 );
+
+//		group.setScale( 0.5 );
+
+
 
 		StarView wg;
 		wg.show();

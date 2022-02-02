@@ -109,8 +109,6 @@ void StarView::resizeEvent( QResizeEvent* event )
 		auto view        = this->mapToScene( this->viewport()->geometry() ).boundingRect();
 		scene.moveCenter( view.center() );
 
-		qDebug() << scene << view;
-
 		if ( view.contains( scene ) )
     	{
             this->fitInView( this->scene()->sceneRect(), Qt::KeepAspectRatio );
